@@ -8,7 +8,7 @@ import {
   User, 
   Search
 } from "lucide-react";
-import TeacherNavbar from "../pages/TeacherNavbar";
+import TeacherNavbar from "./Teacher/TeacherNavbar";
 import SchoolNavbar from "./Schools/SchoolNavbar";
 import AdminNavbar from "./Admin/AdminNavbar";
 

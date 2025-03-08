@@ -240,7 +240,7 @@ const SchoolReports: React.FC = () => {
         className="lg:col-span-3"
       >
         <StyledCard>
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">School Performance Dashboard</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">Admin Performance Dashboard</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
@@ -249,7 +249,7 @@ const SchoolReports: React.FC = () => {
             </div>
             
             <div className="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
-              <p className="text-sm text-green-600 font-medium">Total Students</p>
+              <p className="text-sm text-green-600 font-medium">Total School</p>
               <p className="text-2xl font-bold">{summaryStats.totalStudents}</p>
             </div>
             

@@ -13,7 +13,7 @@ import UserManagement from './pages/UserManagement';
 import UserEdit from './pages/UserEdit';
 import LoginForm from './pages/LoginForm';
 
-import { ClassSectionManagement } from './components/Admin/Class'
+// import { ClassSectionManagement } from './components/Admin/Class'
 import { ManageTeachers } from './pages/ManageTeachers'
 import { ManageStudent } from './pages/ManageStudents'
 // import  StudentFeeDetails  from './components/StudentFeeDetails'
@@ -31,6 +31,8 @@ import DepartmentManagement from "./components/Schools/DepartmentManagement";
 import ReportsDashboard from "./components/Admin/MainReports";
 import ClassAssignmentManager from "./components/Schools/Assignment";
 import TeacherEvaluationPage from "./components/Schools/TeacherEvaluation";
+import ClassManagement from "./components/Teacher/classManagement";
+import  TeachingMaterials from "./components/Teacher/TeachingMaterials";
 // Uncomment these when the components are available
 // import StudentFeeDetails from './pages/StudentFeeDetails';
 // import PaymentGateway from './pages/PaymentGateway';
@@ -258,6 +260,26 @@ function App() {
                       <ProtectedRoute allowedRoles={['school']}>
                         <Layout userRole={userRole} onLogout={handleLogout}>
                           < DepartmentManagement/>
+                        </Layout>
+                      </ProtectedRoute>
+                    } 
+                  />
+          <Route 
+                    path="/classes/manage" 
+                    element={
+                      <ProtectedRoute allowedRoles={['teacher']}>
+                        <Layout userRole={userRole} onLogout={handleLogout}>
+                          <ClassManagement/>
+                        </Layout>
+                      </ProtectedRoute>
+                    } 
+                  />
+          <Route 
+                    path="/classes/TeachingMaterials" 
+                    element={
+                      <ProtectedRoute allowedRoles={['teacher']}>
+                        <Layout userRole={userRole} onLogout={handleLogout}>
+                          < TeachingMaterials/>
                         </Layout>
                       </ProtectedRoute>
                     } 
