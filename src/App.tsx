@@ -39,6 +39,8 @@ import  TeachingMaterials from "./components/Teacher/TeachingMaterials";
 // import UserProfile from './pages/UserProfile';
 // import NotFound from './pages/NotFound';
 
+// Loader for all pages
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<string | null>(null);

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import { loadingState } from '@/recoil/atoms';
+import { useSetRecoilState } from 'recoil';
+
 
 interface LoginFormProps {
   onLoginSuccess: (token: string, role: string) => void;
@@ -14,12 +17,13 @@ interface FormData {
 type Role = 'admin' | 'school' | 'teacher';
 
 const demoAccounts = {
-  admin: { email: 'admin@example.com', password: 'admin123' },
-  school: { email: 'school@example.com', password: 'school123' },
-  teacher: { email: 'teacher@example.com', password: 'teacher123' },
+  admin: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
+  school: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
+  teacher: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
+  const setLoading = useSetRecoilState(loadingState);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -92,8 +96,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    
     if (!validateForm() || !selectedRole) return;
+
     
     setIsLoading(true);
     setLoginError('');

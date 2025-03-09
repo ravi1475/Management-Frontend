@@ -18,6 +18,8 @@ import {
   Phone,
   Shield
 } from 'lucide-react';
+import { loadingState } from '@/recoil/atoms';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 // Mock data for users
 const MOCK_USERS = [
@@ -106,6 +108,8 @@ const ManageUsers: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const [editingUser, setEditingUser] = useState<UserData | null>(null);
+  const setLoading =  useSetRecoilState(loadingState)
+
   const [formData, setFormData] = useState<UserFormData>({
     name: '',
     username: '',
@@ -206,10 +210,13 @@ const ManageUsers: React.FC = () => {
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setLoading(true);
+
+  
     if (!validateForm()) {
       return;
-    }
+    };
+
     
     if (editingUser) {
       // Update existing user
@@ -227,6 +234,29 @@ const ManageUsers: React.FC = () => {
       );
       setUsers(updatedUsers);
     } else {
+      // Direct fetch request
+fetch('http://localhost:5000/api/admin/users/add', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(formData),
+})
+  .then((response) => {
+    // Check if the response is OK (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json(); // Parse the JSON response
+  })
+  .then((data) => {
+    setLoading(false);
+    console.log('User added successfully:', data);
+  })
+  .catch((error) => {
+    setLoading(false);
+    console.error('Failed to add user:', error);
+  });
       // Add new user
       const newUser: UserData = {
         id: users.length + 1,
@@ -241,7 +271,7 @@ const ManageUsers: React.FC = () => {
       };
       setUsers([...users, newUser]);
     }
-    
+  
     // Reset form and state
     setShowForm(false);
     setEditingUser(null);
@@ -381,7 +411,7 @@ const ManageUsers: React.FC = () => {
 
       {/* User Form */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-gray-800">
