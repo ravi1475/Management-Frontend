@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  School, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Search, 
-  ChevronLeft, 
+import {
+  School,
+  Plus,
+  Edit,
+  Trash2,
+  Search,
+  ChevronLeft,
   ChevronRight,
   CheckCircle,
   XCircle,
@@ -16,65 +16,65 @@ import {
 
 // Mock data for schools
 const MOCK_SCHOOLS = [
-  { 
-    id: 1, 
-    name: 'Greenfield International School', 
-    code: 'GIS001', 
-    address: '123 Education Lane, Knowledge City', 
-    contact: '+91 9876543210', 
-    email: 'info@greenfield.edu', 
+  {
+    id: 1,
+    name: 'Greenfield International School',
+    code: 'GIS001',
+    address: '123 Education Lane, Knowledge City',
+    contact: '+91 9876543210',
+    email: 'info@greenfield.edu',
     principal: 'Dr. Sarah Johnson',
     status: 'active',
     students: 1250,
     teachers: 78,
     established: '2005'
   },
-  { 
-    id: 2, 
-    name: 'Sunshine Public School', 
-    code: 'SPS002', 
-    address: '456 Learning Road, Wisdom Town', 
-    contact: '+91 9876543211', 
-    email: 'admin@sunshine.edu', 
+  {
+    id: 2,
+    name: 'Sunshine Public School',
+    code: 'SPS002',
+    address: '456 Learning Road, Wisdom Town',
+    contact: '+91 9876543211',
+    email: 'admin@sunshine.edu',
     principal: 'Mr. Robert Williams',
     status: 'active',
     students: 850,
     teachers: 45,
     established: '2010'
   },
-  { 
-    id: 3, 
-    name: 'Excellence Academy', 
-    code: 'EA003', 
-    address: '789 Scholar Street, Brilliance City', 
-    contact: '+91 9876543212', 
-    email: 'info@excellence.edu', 
+  {
+    id: 3,
+    name: 'Excellence Academy',
+    code: 'EA003',
+    address: '789 Scholar Street, Brilliance City',
+    contact: '+91 9876543212',
+    email: 'info@excellence.edu',
     principal: 'Ms. Emily Chen',
     status: 'inactive',
     students: 620,
     teachers: 32,
     established: '2015'
   },
-  { 
-    id: 4, 
-    name: 'Heritage School of Arts', 
-    code: 'HSA004', 
-    address: '101 Culture Avenue, Heritage District', 
-    contact: '+91 9876543213', 
-    email: 'contact@heritage.edu', 
+  {
+    id: 4,
+    name: 'Heritage School of Arts',
+    code: 'HSA004',
+    address: '101 Culture Avenue, Heritage District',
+    contact: '+91 9876543213',
+    email: 'contact@heritage.edu',
     principal: 'Dr. Michael Brown',
     status: 'active',
     students: 780,
     teachers: 41,
     established: '2008'
   },
-  { 
-    id: 5, 
-    name: 'Modern School of Technology', 
-    code: 'MST005', 
-    address: '202 Innovation Boulevard, Tech Park', 
-    contact: '+91 9876543214', 
-    email: 'info@moderntech.edu', 
+  {
+    id: 5,
+    name: 'Modern School of Technology',
+    code: 'MST005',
+    address: '202 Innovation Boulevard, Tech Park',
+    contact: '+91 9876543214',
+    email: 'info@moderntech.edu',
     principal: 'Dr. Lisa Wong',
     status: 'active',
     students: 950,
@@ -103,6 +103,7 @@ interface SchoolFormData {
   address: string;
   contact: string;
   email: string;
+  password: string;
   principal: string;
   established: string;
 }
@@ -119,24 +120,25 @@ const ManageSchools: React.FC = () => {
     address: '',
     contact: '',
     email: '',
+    password: "",
     principal: '',
     established: ''
   });
   const [statusFilter, setStatusFilter] = useState('all');
-  
+
   const itemsPerPage = 5;
 
   // Filter schools based on search term and status
   const filteredSchools = schools.filter(school => {
-    const matchesSearch = 
+    const matchesSearch =
       school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       school.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
       school.email.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesStatus = 
-      statusFilter === 'all' || 
+
+    const matchesStatus =
+      statusFilter === 'all' ||
       school.status === statusFilter;
-    
+
     return matchesSearch && matchesStatus;
   });
 
@@ -156,17 +158,39 @@ const ManageSchools: React.FC = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    try {
+      const response = await fetch("http://localhost:5000/api/addSchool", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const newSchool = await response.json();
+
+        // // Add new school to state
+        // setSchools([...schools, { ...newSchool, status: "active", students: 0, teachers: 0 }]);
+        console.log("School added successfully:", newSchool);
+      } else {
+        console.error("Failed to add school");
+      }
+    } catch (error) {
+      console.error("Error adding school:", error);
+    }
+
     if (editingSchool) {
       // Update existing school
-      const updatedSchools = schools.map(school => 
-        school.id === editingSchool.id 
-          ? { 
-              ...school, 
-              ...formData 
-            } 
+      const updatedSchools = schools.map(school =>
+        school.id === editingSchool.id
+          ? {
+            ...school,
+            ...formData
+          }
           : school
       );
       setSchools(updatedSchools);
@@ -181,7 +205,7 @@ const ManageSchools: React.FC = () => {
       };
       setSchools([...schools, newSchool]);
     }
-    
+
     // Reset form and state
     setShowForm(false);
     setEditingSchool(null);
@@ -192,7 +216,8 @@ const ManageSchools: React.FC = () => {
       contact: '',
       email: '',
       principal: '',
-      established: ''
+      established: '',
+      password: '',
     });
   };
 
@@ -206,7 +231,8 @@ const ManageSchools: React.FC = () => {
       contact: school.contact,
       email: school.email,
       principal: school.principal,
-      established: school.established
+      established: school.established,
+      password: '',
     });
     setShowForm(true);
   };
@@ -220,9 +246,9 @@ const ManageSchools: React.FC = () => {
 
   // Handle toggle status
   const handleToggleStatus = (id: number) => {
-    setSchools(schools.map(school => 
-      school.id === id 
-        ? { ...school, status: school.status === 'active' ? 'inactive' : 'active' } 
+    setSchools(schools.map(school =>
+      school.id === id
+        ? { ...school, status: school.status === 'active' ? 'inactive' : 'active' }
         : school
     ));
   };
@@ -244,7 +270,8 @@ const ManageSchools: React.FC = () => {
               contact: '',
               email: '',
               principal: '',
-              established: ''
+              established: '',
+              password: ''
             });
             setShowForm(true);
           }}
@@ -267,7 +294,7 @@ const ManageSchools: React.FC = () => {
           />
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
         </div>
-        
+
         <div className="flex items-center space-x-4 w-full md:w-auto">
           <div className="flex items-center space-x-2">
             <Filter className="h-4 w-4 text-gray-500" />
@@ -281,7 +308,7 @@ const ManageSchools: React.FC = () => {
               <option value="inactive">Inactive</option>
             </select>
           </div>
-          
+
           <button className="flex items-center text-gray-600 hover:text-indigo-600 px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-300">
             <Download className="h-4 w-4 mr-2" />
             Export
@@ -304,7 +331,7 @@ const ManageSchools: React.FC = () => {
                 <XCircle className="h-6 w-6" />
               </button>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -320,7 +347,7 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     School Code*
@@ -334,7 +361,7 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Address*
@@ -348,7 +375,7 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Contact Number*
@@ -362,7 +389,7 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email Address*
@@ -376,7 +403,20 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Password*
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Principal Name*
@@ -390,7 +430,7 @@ const ManageSchools: React.FC = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Established Year
@@ -404,7 +444,7 @@ const ManageSchools: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="flex justify-end space-x-3 pt-4">
                 <button
                   type="button"
@@ -477,40 +517,38 @@ const ManageSchools: React.FC = () => {
                     <div className="text-sm text-gray-500">{school.teachers} Teachers</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span 
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        school.status === 'active' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${school.status === 'active'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                        }`}
                     >
                       {school.status === 'active' ? 'Active' : 'Inactive'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
-                      <button 
+                      <button
                         onClick={() => handleToggleStatus(school.id)}
-                        className={`p-1 rounded-full ${
-                          school.status === 'active' 
-                            ? 'text-red-600 hover:bg-red-100' 
-                            : 'text-green-600 hover:bg-green-100'
-                        }`}
+                        className={`p-1 rounded-full ${school.status === 'active'
+                          ? 'text-red-600 hover:bg-red-100'
+                          : 'text-green-600 hover:bg-green-100'
+                          }`}
                         title={school.status === 'active' ? 'Deactivate' : 'Activate'}
                       >
-                        {school.status === 'active' ? 
-                          <XCircle className="h-5 w-5" /> : 
+                        {school.status === 'active' ?
+                          <XCircle className="h-5 w-5" /> :
                           <CheckCircle className="h-5 w-5" />
                         }
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleEdit(school)}
                         className="p-1 text-indigo-600 hover:text-indigo-900 hover:bg-indigo-100 rounded-full"
                         title="Edit"
                       >
                         <Edit className="h-5 w-5" />
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleDelete(school.id)}
                         className="p-1 text-red-600 hover:text-red-900 hover:bg-red-100 rounded-full"
                         title="Delete"
@@ -546,22 +584,20 @@ const ManageSchools: React.FC = () => {
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-              }`}
+              className={`px-3 py-1 rounded-md ${currentPage === 1
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                }`}
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-              }`}
+              className={`px-3 py-1 rounded-md ${currentPage === totalPages
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                }`}
             >
               <ChevronRight className="h-5 w-5" />
             </button>
