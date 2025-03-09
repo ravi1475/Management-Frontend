@@ -30,6 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const [loginError, setLoginError] = useState<string>('');
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
   const [step, setStep] = useState<'role' | 'credentials'>('role');
+  const [submitForm, setSubmitForm] = useState<boolean>(false);
 
   // Pre-fill form data when role changes
   useEffect(() => {
@@ -43,17 +44,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
   const validateForm = (): boolean => {
     const newErrors: Partial<FormData> = {};
-    
+
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -64,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       ...prev,
       [name]: value,
     }));
-    
+
     // Clear error when typing
     if (errors[name as keyof FormData]) {
       setErrors((prev) => ({
@@ -72,7 +73,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         [name]: undefined,
       }));
     }
-    
+
     // Clear login error when user types
     if (loginError) {
       setLoginError('');
@@ -90,35 +91,46 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     setLoginError('');
   };
 
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
-    
+
     if (!validateForm() || !selectedRole) return;
-    
-    setIsLoading(true);
-    setLoginError('');
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Check credentials against demo accounts
-      const account = demoAccounts[selectedRole];
-      
-      if (formData.email === account.email && formData.password === account.password) {
-        // Generate mock token
-        const mockToken = `${selectedRole}_${Math.random().toString(36).substring(2)}`;
-        onLoginSuccess(mockToken, selectedRole);
-      } else {
-        setLoginError('Invalid email or password');
-      }
-    } catch (error) {
-      console.error('Login failed', error);
-      setLoginError('An error occurred during login. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+
+    // Trigger the API call via useEffect
+    setSubmitForm(true);
   };
+
+  // useEffect to handle the API call when submitForm becomes true
+  useEffect(() => {
+    if (!submitForm || !selectedRole) return;
+
+    setIsLoading(true);
+
+    fetch(`http://localhost:5000/api/${selectedRole}Login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          onLoginSuccess(data.token, selectedRole);
+          // alert("Login Successfull!");
+        } else {
+          setLoginError('Invalid email or password');
+        }
+      })
+      .catch(error => {
+        console.error('Login failed', error);
+        setLoginError('An error occurred during login. Please try again.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setSubmitForm(false);
+      });
+  }, [submitForm, selectedRole, formData, onLoginSuccess]);
 
   const roleOptions = [
     { role: 'admin', title: 'Administrator', description: 'Full system access and control', color: 'bg-purple-600 hover:bg-purple-700' },
@@ -131,15 +143,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
         {step === 'role' ? 'Select Your Role' : `Sign in as ${selectedRole?.charAt(0).toUpperCase() + selectedRole?.slice(1)}`}
       </h2>
-      
+
       {loginError && (
         <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
           {loginError}
         </div>
       )}
-      
+
       {step === 'role' ? (
-        <motion.div 
+        <motion.div
           className="space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -162,7 +174,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
           ))}
         </motion.div>
       ) : (
-        <motion.form 
+        <motion.form
           onSubmit={handleSubmit}
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -182,15 +194,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full pl-10 pr-3 py-2 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="you@example.com"
               />
             </div>
             {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
           </div>
-          
+
           <div className="mb-6">
             <div className="flex items-center justify-between mb-1">
               <label className="block text-sm font-medium text-gray-700" htmlFor="password">
@@ -210,9 +221,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-10 py-2 rounded-lg border ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full pl-10 pr-10 py-2 rounded-lg border ${errors.password ? 'border-red-500' : 'border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="••••••••"
               />
               <button
@@ -225,7 +235,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             </div>
             {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
           </div>
-          
+
           <div className="flex gap-3">
             <motion.button
               type="button"
@@ -236,15 +246,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             >
               Back
             </motion.button>
-            
+
             <motion.button
               type="submit"
               disabled={isLoading}
-              className={`flex-1 ${
-                selectedRole === 'admin' ? 'bg-purple-600 hover:bg-purple-700' :
+              className={`flex-1 ${selectedRole === 'admin' ? 'bg-purple-600 hover:bg-purple-700' :
                 selectedRole === 'school' ? 'bg-blue-600 hover:bg-blue-700' :
-                'bg-green-600 hover:bg-green-700'
-              } text-white py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-300`}
+                  'bg-green-600 hover:bg-green-700'
+                } text-white py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-300`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -263,7 +272,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
           </div>
         </motion.form>
       )}
-      
+
       <div className="mt-6">
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
@@ -273,7 +282,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
             <span className="px-2 bg-white text-gray-500">Demo Credentials</span>
           </div>
         </div>
-        
+
         <div className="mt-4 grid grid-cols-3 gap-4 text-xs text-gray-600">
           <div className="p-2 border border-purple-200 rounded-md bg-purple-50">
             <p className="font-bold text-purple-700">Admin</p>
