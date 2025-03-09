@@ -15,7 +15,7 @@ type Role = 'admin' | 'school' | 'teacher';
 
 const demoAccounts = {
   admin: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
-  school: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
+  school: { email: 'Ymca@gmail.com', password: 'Ymca@1234' },
   teacher: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
 };
 
