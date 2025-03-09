@@ -129,13 +129,13 @@ const StudentRegistrationForm = () => {
     console.log("Submitting payload:", payload);
 
     try {
-      const response = await fetch("http://localhost:5000/students", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+        const response = await fetch("http://localhost:5000/students", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
 
       if (response.ok) {
         const successData = await response.json();

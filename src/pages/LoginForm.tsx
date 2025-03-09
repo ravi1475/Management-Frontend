@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import { loadingState } from '@/recoil/atoms';
+import { useSetRecoilState } from 'recoil';
+
 
 interface LoginFormProps {
   onLoginSuccess: (token: string, role: string) => void;
@@ -14,9 +17,9 @@ interface FormData {
 type Role = 'admin' | 'school' | 'teacher';
 
 const demoAccounts = {
-  admin: { email: 'admin@example.com', password: 'admin123' },
-  school: { email: 'school@example.com', password: 'school123' },
-  teacher: { email: 'teacher@example.com', password: 'teacher123' },
+  admin: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
+  school: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
+  teacher: { email: 'abhay@gmail.com', password: 'Abhay@1234' },
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
@@ -91,17 +94,45 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     setLoginError('');
   };
 
-  const handleSubmit = (e: React.FormEvent): void => {
+ const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
-    if (!validateForm() || !selectedRole) return;
 
-    // Trigger the API call via useEffect
+    if (!validateForm() || !selectedRole) return;
+    console.log(submitForm, selectedRole);+
+    setIsLoading(true);
+
+    console.log(selectedRole);
+    fetch(`http://localhost:5000/api/${selectedRole}Login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: "include",
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.token) {
+          onLoginSuccess(data.token, selectedRole);
+          // alert("Login Successfull!");
+        } else {
+          setLoginError('Invalid email or password');
+        }
+      })
+      .catch(error => {
+        console.error('Login failed', error);
+        setLoginError('An error occurred during login. Please try again.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setSubmitForm(false);
+      })
     setSubmitForm(true);
   };
 
   // useEffect to handle the API call when submitForm becomes true
-  useEffect(() => {
+<!--   useEffect(() => {
     if (!submitForm || !selectedRole) return;
 
     setIsLoading(true);
@@ -130,7 +161,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
         setIsLoading(false);
         setSubmitForm(false);
       });
-  }, [submitForm, selectedRole, formData, onLoginSuccess]);
+  }, [submitForm, selectedRole, formData, onLoginSuccess]); -->
 
   const roleOptions = [
     { role: 'admin', title: 'Administrator', description: 'Full system access and control', color: 'bg-purple-600 hover:bg-purple-700' },
