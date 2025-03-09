@@ -107,7 +107,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
     setIsLoading(true);
 
-    console.log(selectedRole);
+    // Check if the credentials match demo accounts
+    const demoAccount = demoAccounts[selectedRole];
+    if (formData.email === demoAccount.email && formData.password === demoAccount.password) {
+      // Simulate successful login with demo accounts
+      setTimeout(() => {
+        // Generate a mock token for demo purposes
+        const mockToken = `demo-token-${selectedRole}-${Date.now()}`;
+        onLoginSuccess(mockToken, selectedRole);
+        setIsLoading(false);
+        setSubmitForm(false);
+      }, 800); // Add a small delay to simulate API call
+      return;
+    }
+
+    // If not demo credentials, try the API (keeping this for future real implementation)
     fetch(`http://localhost:5000/api/${selectedRole}Login`, {
       method: 'POST',
       headers: {
@@ -120,7 +134,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
       .then(data => {
         if (data.token) {
           onLoginSuccess(data.token, selectedRole);
-          // alert("Login Successfull!");
         } else {
           setLoginError('Invalid email or password');
         }
