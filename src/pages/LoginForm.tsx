@@ -23,7 +23,6 @@ const demoAccounts = {
 };
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
-  const setLoading = useSetRecoilState(loadingState);
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
