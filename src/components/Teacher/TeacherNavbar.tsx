@@ -138,6 +138,11 @@ const TeacherNavbar = {
               label="Teaching Materials" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
+             <NavLink 
+              to="/students/attendance" 
+              label="Attendance" 
+              onClick={() => setIsMobileSidebarOpen(false)}
+            />
             <NavLink 
               to="/classes/assignments" 
               label="Assignments" 
@@ -157,11 +162,7 @@ const TeacherNavbar = {
               label="Student Directory" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
-            <NavLink 
-              to="/students/attendance" 
-              label="Take Attendance" 
-              onClick={() => setIsMobileSidebarOpen(false)}
-            />
+           
             <NavLink 
               to="/students/grades" 
               label="Grade Management" 
