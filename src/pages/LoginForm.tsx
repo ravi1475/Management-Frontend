@@ -107,7 +107,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
 
     setIsLoading(true);
 
-    console.log(selectedRole);
+    console.log(`http://localhost:5000/api/${selectedRole}Login`);
     fetch(`http://localhost:5000/api/${selectedRole}Login`, {
       method: 'POST',
       headers: {
@@ -118,7 +118,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess }) => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.token) {
+        if (data.data.token) {
           onLoginSuccess(data.token, selectedRole);
           // alert("Login Successfull!");
         } else {
