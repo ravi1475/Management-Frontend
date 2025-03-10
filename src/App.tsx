@@ -33,6 +33,8 @@ import ClassAssignmentManager from "./components/Schools/Assignment";
 import TeacherEvaluationPage from "./components/Schools/TeacherEvaluation";
 import ClassManagement from "./components/Teacher/classManagement";
 import TeachingMaterials from "./components/Teacher/TeachingMaterials";
+import AssignmentManager from './components/Teacher/Assignment';
+import TeacherDirectory from './components/Schools/TeacherDirectory';
 // Uncomment these when the components are available
 // import StudentFeeDetails from './pages/StudentFeeDetails';
 // import PaymentGateway from './pages/PaymentGateway';
@@ -228,6 +230,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/school/faculty-management/teacher-directory"
+          element={
+            <ProtectedRoute allowedRoles={['school']}>
+              <Layout userRole={userRole} onLogout={handleLogout}>
+                <TeacherDirectory />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/students/StudentRegistrationForm"
@@ -235,6 +247,16 @@ function App() {
             <ProtectedRoute allowedRoles={['admin', 'school']}>
               <Layout userRole={userRole} onLogout={handleLogout}>
                 <StudentRegistrationForm />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teachers/myclasses/assignment"
+          element={
+            <ProtectedRoute allowedRoles={['teacher']}>
+              <Layout userRole={userRole} onLogout={handleLogout}>
+                <AssignmentManager />
               </Layout>
             </ProtectedRoute>
           }

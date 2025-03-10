@@ -212,7 +212,7 @@ const SchoolNavbar = {
             onClick={() => toggleDropdown("faculty")}
           >
             <NavLink 
-              to="/school/faculty/teachers" 
+              to="/school/faculty-management/teacher-directory" 
               label="Teacher Directory" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
