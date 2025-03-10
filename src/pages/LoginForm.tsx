@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 9277d5254b433b72f154f55ad591f86aa7b3fab1
 
 interface LoginFormProps {
   onLoginSuccess: (token: string, role: string) => void;

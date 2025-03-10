@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
   User, 
-  Plus, 
   Edit, 
   Trash2, 
   Search, 
@@ -15,11 +14,11 @@ import {
   EyeOff,
   UserPlus,
   Mail,
-  Phone,
-  Shield
+  Phone
 } from 'lucide-react';
 import { loadingState } from '@/recoil/atoms';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { fetchUsers, getCache, getLoadingState,clearCache } from '@/utils/getUsersWithLimit';
 
 // Mock data for users
 const MOCK_USERS = [
@@ -126,6 +125,19 @@ const ManageUsers: React.FC = () => {
   
   const itemsPerPage = 5;
 
+  // Fetching Users 
+  type UserData = {
+    id: number;
+    name: string;
+    email: string;
+    // Add other user fields as needed
+  };
+
+  useEffect(()=>{
+  const AllUsers = fetchUsers(1);
+  console.log("All Users : " , AllUsers)
+  },[]);
+  
   // Filter users based on search term, role and status
   const filteredUsers = users.filter(user => {
     const matchesSearch = 
@@ -603,7 +615,7 @@ fetch('http://localhost:5000/api/admin/users/add', {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentUsers.length > 0 ? (
+            {currentUsers.length > 0 ?  (
               currentUsers.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
