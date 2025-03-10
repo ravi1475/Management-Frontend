@@ -299,7 +299,7 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['school']}>
               <Layout userRole={userRole} onLogout={handleLogout}>
-                < DepartmentManagement />
+                <DepartmentManagement/>
               </Layout>
             </ProtectedRoute>
           }
@@ -319,7 +319,7 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['teacher']}>
               <Layout userRole={userRole} onLogout={handleLogout}>
-                < TeachingMaterials />
+                <TeachingMaterials />
               </Layout>
             </ProtectedRoute>
           }
