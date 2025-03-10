@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 const StudentRegistrationForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
@@ -70,78 +72,114 @@ const StudentRegistrationForm = () => {
         [name]: value,
       }));
     }
+    
+    // Clear error message when user starts typing
+    if (error) setError('');
+  };
+
+  const validateCurrentStep = () => {
+    switch(currentStep) {
+      case 1:
+        if (!formData.firstName) return "First name is required";
+        if (!formData.lastName) return "Last name is required";
+        if (!formData.dateOfBirth) return "Date of birth is required";
+        if (!formData.gender) return "Gender is required";
+        break;
+      case 2:
+        if (!formData.mobileNumber) return "Mobile number is required";
+        break;
+      case 3:
+        if (!formData.admissionNo) return "Admission number is required";
+        if (!formData.className) return "Class is required";
+        break;
+      case 4:
+        if (!formData.address.city) return "City is required";
+        if (!formData.address.state) return "State is required";
+        break;
+      case 5:
+        if (!formData.father.name) return "Father's name is required";
+        if (!formData.mother.name) return "Mother's name is required";
+        break;
+    }
+    return "";
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Validate date of birth
-    if (!formData.dateOfBirth) {
-      alert("Please select a date of birth.");
+    
+    // Final validation
+    const validationError = validateCurrentStep();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    // Format dates properly
-    const formattedDateOfBirth = new Date(formData.dateOfBirth).toISOString().split('T')[0];
-    const formattedAdmissionDate = new Date(formData.admissionDate).toISOString().split('T')[0];
-
-    const payload = {
-      first_name: formData.firstName,
-      middle_name: formData.middleName || '', // Provide empty string if null
-      last_name: formData.lastName,
-      date_of_birth: formattedDateOfBirth,
-      gender: formData.gender,
-      blood_group: formData.bloodGroup || '',
-      nationality: formData.nationality || '',
-      religion: formData.religion || '',
-      category: formData.category || '',
-      aadhaar_number: formData.aadhaarNumber || '',
-      mobile_number: formData.mobileNumber,
-      email: formData.email,
-      emergency_contact: formData.emergencyContact || '',
-      admission_no: formData.admissionNo,
-      roll_number: formData.rollNumber || '',
-      class_name: formData.className,
-      section: formData.section || '',
-      admission_date: formattedAdmissionDate,
-      previous_school: formData.previousSchool || '',
-      address: {
-        house_no: formData.address.houseNo || '',
-        street: formData.address.street || '',
-        city: formData.address.city || '',
-        state: formData.address.state || '',
-        pin_code: formData.address.pinCode || ''
-      },
-      father: {
-        name: formData.father.name || '',
-        occupation: formData.father.occupation || '',
-        contact_number: formData.father.contactNumber || '',
-        email: formData.father.email || ''
-      },
-      mother: {
-        name: formData.mother.name || '',
-        occupation: formData.mother.occupation || '',
-        contact_number: formData.mother.contactNumber || '',
-        email: formData.mother.email || ''
-      }
-    };
-
-    console.log("Submitting payload:", payload);
+    setIsSubmitting(true);
+    setError('');
 
     try {
-        const response = await fetch("http://localhost:5000/students", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+      // Format dates properly
+      const formattedDateOfBirth = new Date(formData.dateOfBirth).toISOString().split('T')[0];
+      const formattedAdmissionDate = new Date(formData.admissionDate).toISOString().split('T')[0];
+
+      const payload = {
+        first_name: formData.firstName,
+        middle_name: formData.middleName || '',
+        last_name: formData.lastName,
+        date_of_birth: formattedDateOfBirth,
+        gender: formData.gender,
+        blood_group: formData.bloodGroup || '',
+        nationality: formData.nationality || '',
+        religion: formData.religion || '',
+        category: formData.category || '',
+        aadhaar_number: formData.aadhaarNumber || '',
+        mobile_number: formData.mobileNumber,
+        email: formData.email || '',
+        emergency_contact: formData.emergencyContact || '',
+        admission_no: formData.admissionNo,
+        roll_number: formData.rollNumber || '',
+        class_name: formData.className,
+        section: formData.section || '',
+        admission_date: formattedAdmissionDate,
+        previous_school: formData.previousSchool || '',
+        address: {
+          house_no: formData.address.houseNo || '',
+          street: formData.address.street || '',
+          city: formData.address.city || '',
+          state: formData.address.state || '',
+          pin_code: formData.address.pinCode || ''
+        },
+        father: {
+          name: formData.father.name || '',
+          occupation: formData.father.occupation || '',
+          contact_number: formData.father.contactNumber || '',
+          email: formData.father.email || ''
+        },
+        mother: {
+          name: formData.mother.name || '',
+          occupation: formData.mother.occupation || '',
+          contact_number: formData.mother.contactNumber || '',
+          email: formData.mother.email || ''
+        }
+      };
+
+      console.log("Submitting payload:", payload);
+
+      const response = await fetch("http://localhost:5000/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
 
       if (response.ok) {
-        const successData = await response.json();
-        console.log("Submission successful:", successData);
-        alert("Form submitted successfully.");
-        // Reset form after successful submission
+        console.log("Submission successful:", data);
+        alert("Student registration successful!");
+        
+        // Reset form
         setFormData({
           firstName: '',
           middleName: '',
@@ -184,18 +222,32 @@ const StudentRegistrationForm = () => {
         });
         setCurrentStep(1);
       } else {
-        const errorData = await response.json();
-        console.error("Submission error:", errorData);
-        alert(`Submission failed: ${errorData.error}`);
+        console.error("Submission error:", data);
+        setError(data.message || "Failed to submit form. Please try again.");
       }
     } catch (error) {
       console.error("Exception during form submission:", error);
-      alert("Error submitting form. Check console for details.");
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
-  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  const nextStep = () => {
+    const validationError = validateCurrentStep();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+    
+    setError('');
+    setCurrentStep(prev => Math.min(prev + 1, steps.length));
+  };
+  
+  const prevStep = () => {
+    setError('');
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
 
   const renderProgressBar = () => (
     <div className="mb-8">
@@ -556,6 +608,13 @@ const StudentRegistrationForm = () => {
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h1 className="text-2xl font-bold text-center mb-8">Student Registration</h1>
         {renderProgressBar()}
+        
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+        
         <form onSubmit={handleSubmit}>
           {renderForm()}
           <div className="mt-8 flex justify-between">
@@ -574,9 +633,10 @@ const StudentRegistrationForm = () => {
             {currentStep === steps.length ? (
               <button
                 type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                disabled={isSubmitting}
+                className={`px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-blue-700'}`}
               >
-                Submit Registration
+                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
               </button>
             ) : (
               <button
