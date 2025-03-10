@@ -60,14 +60,23 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout, userRole }) => {
     ));
   };
 
-  // Add this useEffect to handle clicks outside the profile dropdown
+  // Modify the useEffect to handle both profile and notifications dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Handle profile dropdown
       if (
         profileDropdownRef.current &&
         !profileDropdownRef.current.contains(event.target as Node)
       ) {
         setIsProfileDropdownOpen(false);
+      }
+
+      // Handle notifications dropdown
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(event.target as Node)
+      ) {
+        setIsNotificationsOpen(false);
       }
     };
 
