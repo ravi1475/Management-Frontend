@@ -17,6 +17,7 @@ import { ClassSectionManagement } from './components/Admin/Class'
 import { ManageTeachers } from './pages/ManageTeachers'
 import { ManageStudent } from './pages/ManageStudents'
 // import  StudentFeeDetails  from './components/StudentFeeDetails'
+import AssignmentManager from './components/Teachers/Assignment'
 
 import ManageSchools from './components/Admin/ManageSchools';
 import ManageUsers from './components/Admin/ManageUser';
@@ -118,6 +119,16 @@ function App() {
             isAuthenticated ? 
               <Navigate to="/dashboard" replace /> : 
               <AuthPage onAuthSuccess={handleAuthSuccess} />
+          } 
+        />
+        <Route 
+          path="/teachers/myclasses/assignment" 
+          element={
+            <ProtectedRoute>
+              <Layout userRole={userRole} onLogout={handleLogout}>
+                <AssignmentManager />
+              </Layout>
+            </ProtectedRoute>
           } 
         />
         

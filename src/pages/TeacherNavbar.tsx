@@ -139,7 +139,7 @@ const TeacherNavbar = {
               onClick={() => setIsMobileSidebarOpen(false)}
             />
             <NavLink 
-              to="/classes/assignments" 
+              to="/teachers/myclasses/assignment" 
               label="Assignments" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
