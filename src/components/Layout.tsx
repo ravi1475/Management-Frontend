@@ -60,6 +60,23 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout, userRole }) => {
     ));
   };
 
+  // Add this useEffect to handle clicks outside the profile dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // Create props for navigation components
   const navbarProps = {
     activeDropdown,

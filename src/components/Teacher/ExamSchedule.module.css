@@ -1,0 +1,364 @@
+.customCalendar {
+  width: 100%;
+  max-width: 100%;
+  background: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.customCalendar .react-calendar__tile {
+  padding: 0.5rem;
+  height: 100px;
+  position: relative;
+  border: 1px solid #f3f4f6;
+  background: white;
+}
+
+.customCalendar .react-calendar__month-view__days__day {
+  position: relative;
+}
+
+.customCalendar .react-calendar__tile--now {
+  background: #f0fdf4 !important;
+}
+
+.customCalendar .react-calendar__tile--active {
+  background: #dcfce7 !important;
+}
+
+.customCalendar .react-calendar__navigation {
+  margin-bottom: 1rem;
+}
+
+.customCalendar .react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  font-size: 1.5em;
+  color: #16a34a;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.customCalendar .react-calendar__navigation button:enabled:hover,
+.customCalendar .react-calendar__navigation button:enabled:focus {
+  background-color: #f0fdf4;
+}
+
+.customCalendar .react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.75em;
+  color: #15803d;
+  padding: 0.5rem 0;
+}
+
+.customCalendar .react-calendar__month-view__weekdays__weekday {
+  padding: 0.5rem;
+}
+
+.customCalendar .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+.hasExam {
+  background-color: #ffffff !important;
+}
+
+.hasExam:hover {
+  background-color: #f0fdf4 !important;
+}
+
+/* Remove default date styling */
+.customCalendar .react-calendar__tile > abbr {
+  display: none;
+}
+
+/* Hover effect for calendar tiles */
+.calendar-tile {
+  transition: all 0.2s ease;
+}
+
+.calendar-tile:hover {
+  background-color: #f0fdf4;
+}
+
+/* Additional styles for better spacing */
+.customCalendar .react-calendar__viewContainer {
+  padding: 0.5rem;
+}
+
+.customCalendar .react-calendar__month-view__days {
+  gap: 4px;
+}
+
+.exam-view-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
+  background-color: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+}
+
+.exam-view-button:hover {
+  background-color: rgba(22, 163, 74, 0.2);
+}
+
+.customCalendar :global(.react-calendar__navigation) {
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #059669, #10b981);
+  padding: 1.25rem;
+  border-bottom: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customCalendar :global(.react-calendar__navigation__label) {
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1.125rem !important;
+  flex-grow: 1;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.customCalendar :global(.react-calendar__navigation button) {
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  color: white;
+  min-width: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.customCalendar :global(.react-calendar__navigation button:hover) {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.customCalendar :global(.react-calendar__month-view__weekdays) {
+  background: #f8fafc;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.customCalendar :global(.react-calendar__month-view__weekdays__weekday) {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.customCalendar :global(.react-calendar__tile) {
+  padding: 2rem 0.5rem 0.5rem !important;
+  min-height: 150px !important;
+  border: 1px solid #e2e8f0;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.customCalendar :global(.react-calendar__tile:hover) {
+  background: #f8fafc;
+  z-index: 1;
+}
+
+.customCalendar :global(.react-calendar__tile--now) {
+  background: #f0fdf4 !important;
+  position: relative;
+}
+
+.customCalendar :global(.react-calendar__tile--now::after) {
+  content: 'TODAY';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #059669;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.examTileContent {
+  @apply absolute top-1/2 left-0 right-0 p-1 flex flex-col gap-1 z-10;
+}
+
+.examTileItem {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.examName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.examDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: #4b5563;
+}
+
+.examSubject {
+  color: #4f46e5;
+  font-weight: 500;
+}
+
+.examClass {
+  color: #059669;
+}
+
+.examTime, .examRoom {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.filterContainer {
+  background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.filterSelect {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.filterSelect:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .customCalendar :global(.react-calendar__tile) {
+    min-height: 120px !important;
+  }
+
+  .examName {
+    font-size: 0.75rem;
+  }
+
+  .examDuration {
+    font-size: 0.65rem;
+  }
+
+  .examSubject,
+  .examClass,
+  .examLocation {
+    font-size: 0.65rem;
+  }
+}
+
+/* Custom scrollbar */
+.examTileContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+.examTileContent::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+.examTileContent::-webkit-scrollbar-thumb {
+  background: #059669;
+  border-radius: 4px;
+}
+
+/* Popup styles */
+.examPopup {
+  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+}
+
+.examPopupContent {
+  @apply bg-white rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto m-4;
+}
+
+.examPopupHeader {
+  @apply flex justify-between items-center mb-4;
+}
+
+.examPopupTitle {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.examPopupClose {
+  @apply text-gray-500 hover:text-gray-700;
+}
+
+.calendar-container {
+  @apply bg-white rounded-lg shadow-lg p-6;
+}
+
+.calendar-header {
+  @apply flex items-center justify-between mb-6;
+}
+
+.calendar-grid {
+  @apply grid grid-cols-7 gap-px bg-gray-200;
+}
+
+.calendar-day-header {
+  @apply bg-white p-4 text-sm font-medium text-gray-600;
+}
+
+.calendar-day {
+  @apply bg-white p-4 min-h-[120px] relative;
+}
+
+.calendar-day-number {
+  @apply text-sm;
+}
+
+.calendar-day-current {
+  @apply h-6 w-6 bg-blue-600 text-white rounded-full flex items-center justify-center;
+}
+
+.event-indicator {
+  @apply px-2 py-0.5 rounded text-xs text-white;
+} 

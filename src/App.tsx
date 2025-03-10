@@ -12,6 +12,7 @@ import AccountsPage from './pages/AccountsPage';
 import UserManagement from './pages/UserManagement';
 import UserEdit from './pages/UserEdit';
 import LoginForm from './pages/LoginForm';
+import CreateExam from './components/Teacher/Exam'
 
 // import { ClassSectionManagement } from './components/Admin/Class'
 import { ManageTeachers } from './pages/ManageTeachers'
@@ -35,6 +36,7 @@ import ClassManagement from "./components/Teacher/classManagement";
 import TeachingMaterials from "./components/Teacher/TeachingMaterials";
 import AssignmentManager from './components/Teacher/Assignment';
 import TeacherDirectory from './components/Schools/TeacherDirectory';
+import ExamSchedule from './components/Teacher/ExamSchedule'
 // Uncomment these when the components are available
 // import StudentFeeDetails from './pages/StudentFeeDetails';
 // import PaymentGateway from './pages/PaymentGateway';
@@ -257,6 +259,26 @@ function App() {
             <ProtectedRoute allowedRoles={['teacher']}>
               <Layout userRole={userRole} onLogout={handleLogout}>
                 <AssignmentManager />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teachers/examination/create-exam"
+          element={
+            <ProtectedRoute allowedRoles={['teacher']}>
+              <Layout userRole={userRole} onLogout={handleLogout}>
+                <CreateExam />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teachers/examination/exam-schedule"
+          element={
+            <ProtectedRoute>
+              <Layout userRole={userRole} onLogout={handleLogout}>
+                <ExamSchedule />
               </Layout>
             </ProtectedRoute>
           }

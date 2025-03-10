@@ -197,11 +197,11 @@ const AssignmentManager: React.FC = () => {
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 flex items-center">
-          <BookOpen className="h-6 w-6 mr-2 text-indigo-600" />
+          <BookOpen className="h-6 w-6 mr-2 text-green-600" />
           Assignments
         </h1>
         <button
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md flex items-center"
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center"
           onClick={() => setIsCreateModalOpen(true)}
         >
           <Upload className="h-4 w-4 mr-2" />
@@ -215,7 +215,7 @@ const AssignmentManager: React.FC = () => {
           <input
             type="text"
             placeholder="Search assignments..."
-            className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
+            className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -224,7 +224,7 @@ const AssignmentManager: React.FC = () => {
 
         <div className="flex gap-4">
           <select
-            className="p-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
+            className="p-2 border rounded-md focus:ring-2 focus:ring-green-600"
             value={selectedClassFilter}
             onChange={(e) => setSelectedClassFilter(e.target.value)}
           >
@@ -237,7 +237,7 @@ const AssignmentManager: React.FC = () => {
           </select>
 
           <select
-            className="p-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
+            className="p-2 border rounded-md focus:ring-2 focus:ring-green-600"
             value={selectedSubjectFilter}
             onChange={(e) => setSelectedSubjectFilter(e.target.value)}
           >
@@ -266,7 +266,7 @@ const AssignmentManager: React.FC = () => {
                     setSelectedAssignment(assignment);
                     setIsModalOpen(true);
                   }}
-                  className="text-indigo-600 hover:text-indigo-900"
+                  className="text-green-600 hover:text-green-900"
                 >
                   <Eye className="h-5 w-5" />
                 </button>
@@ -341,7 +341,7 @@ const AssignmentManager: React.FC = () => {
                 {selectedAssignment.filePath ? (
                   <a
                     href={selectedAssignment.filePath}
-                    className="text-indigo-600 hover:underline flex items-center"
+                    className="text-green-600 hover:underline flex items-center"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -467,7 +467,7 @@ const AssignmentManager: React.FC = () => {
 
                 <button
                   onClick={handleCreateAssignment}
-                  className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700"
+                  className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
                 >
                   Create Assignment
                 </button>

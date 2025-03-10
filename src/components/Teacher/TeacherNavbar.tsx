@@ -177,12 +177,12 @@ const TeacherNavbar = {
             onClick={() => toggleDropdown("examination")}
           >
             <NavLink 
-              to="/examination/create" 
+              to="/teachers/examination/create-exam" 
               label="Create Exam" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
             <NavLink 
-              to="/examination/schedule" 
+              to="/teachers/examination/exam-schedule" 
               label="Exam Schedule" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
