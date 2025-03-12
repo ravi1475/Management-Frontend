@@ -14,7 +14,7 @@ const ClassFilter = ({ selectedClass, setSelectedClass }: {
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
       <h3 className="font-medium mb-3 text-gray-700 flex items-center gap-2">
-        <Users className="h-5 w-5 text-green-600" />
+        <Users className="h-5 w-5 text-emerald-600" />
         Filter by Class
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -22,8 +22,8 @@ const ClassFilter = ({ selectedClass, setSelectedClass }: {
           onClick={() => setSelectedClass('all')}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
             ${selectedClass === 'all' 
-              ? 'bg-green-600 text-white' 
-              : 'bg-green-50 text-green-600 hover:bg-green-100'}`}
+              ? 'bg-emerald-600 text-white' 
+              : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
         >
           All Classes
         </button>
@@ -33,8 +33,8 @@ const ClassFilter = ({ selectedClass, setSelectedClass }: {
             onClick={() => setSelectedClass(className)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all
               ${selectedClass === className 
-                ? 'bg-green-600 text-white' 
-                : 'bg-green-50 text-green-600 hover:bg-green-100'}`}
+                ? 'bg-emerald-600 text-white' 
+                : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
           >
             Class {className}
           </button>
@@ -90,7 +90,7 @@ const CalendarDayCell = ({
   <div className={`bg-white p-4 min-h-[120px] border-t border-l ${isPadding ? 'text-gray-400 bg-gray-50/50' : 'text-gray-900'}`}>
     <div className="flex items-start justify-between">
       <span className={`text-sm ${
-        isToday ? 'h-6 w-6 bg-green-600 text-white rounded-full flex items-center justify-center' : ''
+        isToday ? 'h-6 w-6 bg-emerald-600 text-white rounded-full flex items-center justify-center' : ''
       }`}>
         {date.getDate()}
       </span>
@@ -98,10 +98,10 @@ const CalendarDayCell = ({
       {exams.length > 0 && !isPadding && (
         <button
           onClick={() => onViewExams(exams)}
-          className="p-1 hover:bg-green-50 rounded-full transition-colors"
+          className="p-1 hover:bg-emerald-50 rounded-full transition-colors"
           title="View exams"
         >
-          <Eye className="h-4 w-4 text-green-600" />
+          <Eye className="h-4 w-4 text-emerald-600" />
         </button>
       )}
     </div>
@@ -111,7 +111,7 @@ const CalendarDayCell = ({
         {exams.map((exam) => (
           <div 
             key={exam.id}
-            className="bg-green-50 text-green-700 text-xs p-1.5 rounded truncate border border-green-100"
+            className="bg-emerald-50 text-emerald-700 text-xs p-1.5 rounded truncate border border-emerald-100"
           >
             {exam.examName}
           </div>
@@ -183,7 +183,7 @@ export default function SchoolCalendar() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-2xl shadow-lg p-6">
+      <div className="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-2xl shadow-lg p-6">
         <div className="flex items-center gap-3">
           <h2 className="text-2xl font-bold">Exam Schedules</h2>
         </div>
@@ -205,7 +205,7 @@ export default function SchoolCalendar() {
               </h2>
               <button 
                 onClick={() => setCurrentDate(new Date())}
-                className="px-3 py-1 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 transition-colors"
+                className="px-3 py-1 bg-emerald-600 text-white rounded-md text-sm hover:bg-emerald-700 transition-colors"
               >
                 Today
               </button>
@@ -213,13 +213,13 @@ export default function SchoolCalendar() {
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                className="p-1 hover:bg-green-50 rounded-full text-green-600 transition-colors"
+                className="p-1 hover:bg-emerald-50 rounded-full text-emerald-600 transition-colors"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button 
                 onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                className="p-1 hover:bg-green-50 rounded-full text-green-600 transition-colors"
+                className="p-1 hover:bg-emerald-50 rounded-full text-emerald-600 transition-colors"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -228,7 +228,7 @@ export default function SchoolCalendar() {
 
           <div className="grid grid-cols-7 border-r border-b border-gray-200">
             {DAYS_OF_WEEK.map(day => (
-              <div key={day} className="bg-green-50/50 p-4 text-sm font-medium text-green-800 border-t border-l border-gray-200">
+              <div key={day} className="bg-emerald-50/50 p-4 text-sm font-medium text-emerald-800 border-t border-l border-gray-200">
                 {day}
               </div>
             ))}

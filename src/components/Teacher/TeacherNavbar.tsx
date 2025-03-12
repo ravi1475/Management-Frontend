@@ -186,11 +186,6 @@ const TeacherNavbar = {
               label="Exam Schedule" 
               onClick={() => setIsMobileSidebarOpen(false)}
             />
-            <NavLink 
-              to="/examination/results" 
-              label="Enter Results" 
-              onClick={() => setIsMobileSidebarOpen(false)}
-            />
           </NavDropdown>
 
           {/* Teacher Resources - New section */}

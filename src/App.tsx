@@ -36,7 +36,7 @@ import ClassManagement from "./components/Teacher/classManagement";
 import TeachingMaterials from "./components/Teacher/TeachingMaterials";
 import AssignmentManager from './components/Teacher/Assignment';
 import TeacherDirectory from './components/Schools/TeacherDirectory';
-import ExamSchedule from './components/Teacher/ExamSchedule'
+import ExamSchedule from './components/Teacher/ExamSchedule';
 // Uncomment these when the components are available
 // import StudentFeeDetails from './pages/StudentFeeDetails';
 // import PaymentGateway from './pages/PaymentGateway';

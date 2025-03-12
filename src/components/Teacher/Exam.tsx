@@ -242,11 +242,11 @@ const ExamManager: React.FC = () => {
       <Toaster />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 flex items-center">
-          <FileText className="h-6 w-6 mr-2 text-green-600" />
+          <FileText className="h-6 w-6 mr-2 text-emerald-600" />
           Exams
         </h1>
         <button
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md flex items-center"
           onClick={() => setIsCreateModalOpen(true)}
         >
           <Upload className="h-4 w-4 mr-2" /> Create Exam
@@ -260,14 +260,14 @@ const ExamManager: React.FC = () => {
               <h2 className="text-xl font-bold text-gray-800">{exam.examName}</h2>
               <div className="flex space-x-2">
                 <button 
-                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                  className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
                   onClick={() => { setSelectedExam(exam); setIsModalOpen(true); }}
                   title="View Details"
                 >
                   <Eye className="h-5 w-5" />
                 </button>
                 <button 
-                  className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"
+                  className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-full transition-colors"
                   onClick={() => { setEditExam(exam); setIsEditModalOpen(true); }}
                   title="Edit Exam"
                 >
@@ -457,7 +457,7 @@ const ExamManager: React.FC = () => {
 
                 <button
                   onClick={handleCreateExam}
-                  className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+                  className="w-full bg-emerald-600 text-white py-2 rounded-md hover:bg-emerald-700"
                 >
                   Create Exam
                 </button>
@@ -549,7 +549,7 @@ const ExamManager: React.FC = () => {
 
                 <button
                   onClick={handleUpdateExam}
-                  className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+                  className="w-full bg-emerald-600 text-white py-2 rounded-md hover:bg-emerald-700"
                 >
                   Update Exam
                 </button>

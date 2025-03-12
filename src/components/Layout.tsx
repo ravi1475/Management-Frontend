@@ -60,7 +60,7 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout, userRole }) => {
     ));
   };
 
-  // Modify the useEffect to handle both profile and notifications dropdowns
+  // Modify the useEffect to handle all three dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // Handle profile dropdown
@@ -77,6 +77,15 @@ const Layout: React.FC<LayoutProps> = ({ children, onLogout, userRole }) => {
         !notificationsRef.current.contains(event.target as Node)
       ) {
         setIsNotificationsOpen(false);
+      }
+
+      // Handle search dropdown
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node) &&
+        !(event.target as Element).closest('button')?.contains(event.target as Node)
+      ) {
+        setIsSearchOpen(false);
       }
     };
 
